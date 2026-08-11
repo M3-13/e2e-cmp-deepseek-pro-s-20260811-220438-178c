@@ -1,0 +1,16 @@
+{
+  "runcontract": 1,
+  "services": [
+    {
+      "name": "python-backend",
+      "dir": ".",
+      "stack": "python",
+      "kind": "cli",
+      "install": [["${python}", "-m", "pip", "install", "-q", "-e", ".[dev]"]],
+      "build": [],
+      "start": ["${python}", "-c", "from textutils import slugify, truncate, word_count, is_palindrome, reverse_words; print('OK')"],
+      "port": 0,
+      "env": {}
+    }
+  ]
+}
