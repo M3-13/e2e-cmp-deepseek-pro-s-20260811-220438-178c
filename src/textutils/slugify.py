@@ -2,19 +2,20 @@ import re
 import unicodedata
 
 _UMLAUT_MAP = {
-    "Ä": "AE",
     "ä": "ae",
-    "Ö": "OE",
     "ö": "oe",
-    "Ü": "UE",
     "ü": "ue",
     "ß": "ss",
 }
+
+_RE_NON_ALPHANUM = re.compile(r"[^a-z0-9]+")
 
 
 def slugify(text: str) -> str:
     if isinstance(text, bytes):
         raise TypeError("text must be str, not bytes")
+
+    text = text.lower()
 
     for umlaut, replacement in _UMLAUT_MAP.items():
         text = text.replace(umlaut, replacement)
@@ -22,8 +23,7 @@ def slugify(text: str) -> str:
     text = unicodedata.normalize("NFKD", text)
     text = text.encode("ascii", "ignore").decode("ascii")
 
-    text = text.lower()
-    text = re.sub(r"[^a-z0-9]+", "-", text)
+    text = _RE_NON_ALPHANUM.sub("-", text)
     text = text.strip("-")
 
     return text
